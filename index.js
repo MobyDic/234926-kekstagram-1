@@ -1,7 +1,7 @@
 const arg = process.argv.slice(2);
 
-if(arg[0]) {
- switch(arg[0]) {
+if (arg[0]) {
+  switch (arg[0]) {
     case `--version`:
       console.log(`v0.0.1`);
       process.exit(0);
