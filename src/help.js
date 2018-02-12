@@ -1,7 +1,9 @@
+require(`colors`);
+
 function helpHandler(commands) {
   console.log([
     `Доступные команды:`,
-    ...commands.map((command) => `${command.name}\t${command.description}`)
+    ...commands.map((command) => `${command.name.grey}\t${command.description.green}`)
   ].join(`\n`));
 }
 
