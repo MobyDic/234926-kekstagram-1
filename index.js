@@ -1,21 +1,33 @@
 const arg = process.argv.slice(2);
 
+const authorModule = require(`./src/author`);
+const descriptionModule = require(`./src/description`);
+const versionModule = require(`./src/version`);
+const greetingModule = require(`./src/greeting`);
+const licenseModule = require(`./src/license`);
+const helpModule = require(`./src/help`);
+const unknownModule = require(`./src/unknown`);
+
+
+const commands = [
+  versionModule,
+  helpModule,
+  descriptionModule,
+  authorModule,
+  licenseModule
+];
+
 if (arg[0]) {
-  switch (arg[0]) {
-    case `--version`:
-      console.log(`v0.0.1`);
-      process.exit(0);
-      break;
-    case `--help`:
-      console.log(`Доступные команды:`);
-      console.log(`--help — печатает этот текст;`);
-      console.log(`--version — печатает версию приложения;`);
-      process.exit(0);
-      break;
-    default:
-      console.error(`Неизвестная команда  ${arg[0]}. Чтобы прочитать правила использования приложения, наберите "--help"`);
-      process.exit(1);
+
+  const currentCommand = commands.find((command) => arg[0] === command.name);
+  if (currentCommand) {
+    currentCommand.execute(commands);
+    process.exit(0);
+  } else {
+    unknownModule.execute(arg[0]);
+    process.exit(1);
   }
+
 } else {
-  console.log(`Привет пользователь! Эта программа будет запускать сервер «Кекстаграм». Автор: Кекс.`);
+  greetingModule.execute();
 }
