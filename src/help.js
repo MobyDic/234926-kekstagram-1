@@ -1,4 +1,4 @@
-const colors = require(`colors`);
+require(`colors`);
 
 function helpHandler(commands) {
   console.log([
