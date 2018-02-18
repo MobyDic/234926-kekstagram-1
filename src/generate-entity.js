@@ -18,7 +18,6 @@ function randomArray(arr, lengthResultArr) {
     result.push(array[indexArr]);
     array.splice(indexArr, 1);
   }
-  console.log(result);
   return result;
 }
 

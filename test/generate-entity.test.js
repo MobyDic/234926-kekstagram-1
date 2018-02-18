@@ -3,8 +3,8 @@ const {generateEntity} = require(`../src/generate-entity`);
 
 const defineItemLength = (item) => item.length <= 20;
 const defineFirstChar = (item) => item.substr(0, 1) === `#`;
-const defineBackspace = (item) => item.search(/\s/) === -1;
-const defineUniqueElement = (item, i, arr) => arr.indexOf(item, i + 1) === -1;
+const defineBackspace = (item) => ~item.search(/\s/) === 0;
+const defineUniqueElement = (item, i, arr) => ~arr.indexOf(item, i + 1) === 0;
 const defineCommentLength = (item) => item.length <= 140;
 
 
