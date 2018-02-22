@@ -24,7 +24,7 @@ if (arg[0]) {
   const currentCommand = commands.find((command) => arg[0] === command.name);
   if (currentCommand) {
     currentCommand.execute(commands);
-    process.exit(0);
+
   } else {
     unknownModule.execute(arg[0]);
     process.exit(1);
