@@ -23,10 +23,18 @@ if (arg[0]) {
 
   const currentCommand = commands.find((command) => arg[0] === command.name);
   if (currentCommand) {
-    currentCommand.execute(commands);
+    switch (arg[0]) {
+      case `--server`:
+        currentCommand.execute(arg[1]);
+        break;
+      case `--help`:
+        currentCommand.execute(commands);
+        break;
+      default: currentCommand.execute();
+    }
 
   } else {
-    unknownModule.execute(arg[0]);
+    unknownModule.execute();
     process.exit(1);
   }
 

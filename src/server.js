@@ -56,12 +56,13 @@ const server = http.createServer((req, res) => {
 module.exports = {
   name: `--server`,
   description: `Запускает сервер`,
-  execute() {
-    server.listen(PORT, HOSTNAME, (err) => {
+  execute(arg) {
+    const port = (+arg >= 1024 && +arg <= 65536) ? arg : PORT;
+    server.listen(port, HOSTNAME, (err) => {
       if (err) {
         console.error(err);
       }
-      console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
+      console.log(`Server running at http://${HOSTNAME}:${port}/`);
     });
   }
 };
