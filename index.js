@@ -7,6 +7,7 @@ const greetingModule = require(`./src/greeting`);
 const licenseModule = require(`./src/license`);
 const helpModule = require(`./src/help`);
 const unknownModule = require(`./src/unknown`);
+const server = require(`./src/server`);
 
 
 const commands = [
@@ -14,17 +15,26 @@ const commands = [
   helpModule,
   descriptionModule,
   authorModule,
-  licenseModule
+  licenseModule,
+  server
 ];
 
 if (arg[0]) {
 
   const currentCommand = commands.find((command) => arg[0] === command.name);
   if (currentCommand) {
-    currentCommand.execute(commands);
-    process.exit(0);
+    switch (arg[0]) {
+      case `--server`:
+        currentCommand.execute(arg[1]);
+        break;
+      case `--help`:
+        currentCommand.execute(commands);
+        break;
+      default: currentCommand.execute();
+    }
+
   } else {
-    unknownModule.execute(arg[0]);
+    unknownModule.execute();
     process.exit(1);
   }
 
