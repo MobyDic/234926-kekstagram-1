@@ -7,7 +7,7 @@ const greetingModule = require(`./src/greeting`);
 const licenseModule = require(`./src/license`);
 const helpModule = require(`./src/help`);
 const unknownModule = require(`./src/unknown`);
-const server = require(`./src/server`);
+const server = require(`./src/server/server`);
 
 
 const commands = [

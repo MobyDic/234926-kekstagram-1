@@ -21,15 +21,22 @@ function randomArray(arr, lengthResultArr) {
   return result;
 }
 
+function getRandomItem(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 function generateEntity() {
+
+
   return {
-    'url': `https://picsum.photos/600/${Math.random().toString(10)}`,
-    'scale': Math.floor(Math.random() * 100),
-    'effect': effectAll[Math.floor(Math.random() * effectAll.length)],
+    'url': `https://picsum.photos/600/${getRandomItem(100, 1000)}`,
+    'scale': getRandomItem(0, 100),
+    'effect': effectAll[getRandomItem(0, effectAll.length)],
     'hashtags': randomArray(hastagsAll, 5),
     'description': `Произвольный текст`,
-    'likes': Math.floor(Math.random() * 1000),
-    'comments': randomArray(comments, 5)
+    'likes': getRandomItem(0, 1000),
+    'comments': randomArray(comments, 5),
+    'date': new Date().setDate(getRandomItem(1, 28)),
   };
 }
 
