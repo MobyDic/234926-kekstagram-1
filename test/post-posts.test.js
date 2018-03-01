@@ -32,30 +32,30 @@ describe(`POST /api/posts`, function () {
         .expect(200, mock);
   });
 
+  it(`should consume form-data with filename`, () => {
+    return request(app)
+        .post(`/api/posts`)
+        .field(`description`, mock.description)
+        .field(`effect`, mock.effect)
+        .field(`hashtags`, mock.hashtags)
+        .field(`scale`, mock.scale)
+        .attach(`filename`, `test/keks.png`)
+        .expect(200, mock);
+  });
+
   it(`should fail and show right error messages`, () => {
     return request(app)
         .post(`/api/posts`)
-        .field(`effect`, `nonee`)
-        .field(`hashtags`, `#keks`)
-        .field(`scale`, 100)
+        .field(`description`, mock.effect)
+        .field(`effect`, mock.effect)
+        .field(`hashtags`, mock.hashtags)
+        .field(`post-scale`, mock.scale)
+        .attach(`filename`, `test/keks.png`)
         .expect(400, [
           {
-            fieldName: `effect`,
-            errorMessage: `should be in range one of [none, chrome, sepia, marvin, phobos, heat]`
-          },
-          {
-            fieldName: `hashtags`,
-            errorMessage: `is required`
-          },
-          {
             fieldName: `scale`,
-            errorMessage: `should be in range 0..100`,
-          },
-          {
-            fieldName: `description`,
             errorMessage: `is required`
           }
-
         ]);
   });
 });

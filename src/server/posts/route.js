@@ -12,24 +12,34 @@ const postsRouter = new Router();
 const upload = multer({storage: multer.memoryStorage()});
 
 
-const posts = [...new Array(5)]
+const posts = [...new Array(10)]
     .reduce((arr) => {
       arr.push(generateEntity());
       return arr;
     }, []);
 
-const toPage = (data, skip = 0, limit = 50) => {
+const toPage = (data, skip, limit) => {
+  const skipData = (typeof `number` && skip >= 0) ? parseInt(skip, 10) : 0;
+  const limitData = (typeof `number` && limit >= 0) ? parseInt(limit, 10) : 50;
+
   return {
-    data: data.slice(skip, skip + limit),
-    skip,
-    limit,
+    data: data.slice(skipData, skipData + limitData),
+    skip: skipData,
+    limit: limitData,
     total: data.length
   };
 };
 
 postsRouter.use(bodyParser.json());
 
-postsRouter.get(``, async(async (req, res) => res.send(toPage(posts))));
+postsRouter.get(``, async(async (req, res) => {
+  const {
+    limit = 50,
+    skip = 0,
+  } = req.query;
+
+  res.send(toPage(posts, skip, limit));
+}));
 
 postsRouter.get(`/:date`, async(async (req, res) => {
   const date = parseInt(req.params.date, 10);
@@ -41,7 +51,7 @@ postsRouter.get(`/:date`, async(async (req, res) => {
   }
 }));
 
-postsRouter.post(``, upload.single(`post`), (req, res) => {
+postsRouter.post(``, upload.single(`filename`), (req, res) => {
   const data = req.body;
   const errors = validateSchema(data, postsSchema);
   console.log(errors);
