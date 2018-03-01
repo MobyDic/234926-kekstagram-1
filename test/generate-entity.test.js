@@ -1,5 +1,5 @@
 const assert = require(`assert`);
-const {generateEntity} = require(`../src/generate-entity`);
+const {generateEntity} = require(`../src/generator/generate-entity`);
 
 const defineItemLength = (item) => item.length <= 20;
 const defineFirstChar = (item) => item.substr(0, 1) === `#`;

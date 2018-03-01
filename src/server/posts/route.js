@@ -5,7 +5,7 @@ const ValidationError = require(`../error/validation-error`);
 const async = require(`../util/async`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
-const {generateEntity} = require(`../../generate-entity`);
+const {generateEntity} = require(`../../generator/generate-entity`);
 
 const postsRouter = new Router();
 

@@ -1,5 +1,5 @@
 const assert = require(`assert`);
-const generate = require(`../src/generate`);
+const generate = require(`../src/generator/generate`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 const access = promisify(fs.access);

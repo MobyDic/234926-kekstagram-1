@@ -1,10 +1,10 @@
 require(`colors`);
 const readline = require(`readline`);
 const fs = require(`fs`);
-const generate = require(`./generate`);
+const generate = require(`../generator/generate`);
 
 
-const packageInfo = require(`../package.json`);
+const packageInfo = require(`../../package.json`);
 
 module.exports = {
   execute() {
