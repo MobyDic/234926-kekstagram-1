@@ -50,5 +50,16 @@ module.exports = {
       },
       message: `should be unique`
     };
-  }
+  },
+  isHashtagLength(from, to) {
+    return {
+      assert(arr) {
+        return arr.split(` `).every((item) => {
+          return (item.length >= from && item.length <= to);
+        });
+      },
+      message: `should be in range ${from}..${to}`
+    };
+  },
+
 };

@@ -16,20 +16,12 @@ describe(`POST /api/posts`, function () {
           description: `Самая красивая тачка на этой планете`,
           effect: `chrome`,
           hashtags: `#тачка #огонь #car #bmwX5`,
-          scale: 100
+          scale: 100,
+          filename: {
+            mimetype: `image/png`
+          }
         }).
         expect(200, mock);
-
-  });
-
-  it(`should consume form-data`, () => {
-    return request(app)
-        .post(`/api/posts`)
-        .field(`description`, mock.description)
-        .field(`effect`, mock.effect)
-        .field(`hashtags`, mock.hashtags)
-        .field(`scale`, mock.scale)
-        .expect(200, mock);
   });
 
   it(`should consume form-data with filename`, () => {
