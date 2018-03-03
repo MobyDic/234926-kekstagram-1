@@ -1,4 +1,13 @@
-const {textRange, isImage, oneOf, inRange, isHashtagLength} = require(`../util/assertion`);
+const {
+  textRange,
+  isImage,
+  oneOf,
+  inRange,
+  isHashtagLength,
+  isHashtagBegin,
+  maxItemHashtags,
+  uniqueHashtags
+} = require(`../util/assertion`);
 
 const MAX_SCALE_LENGTH = 100;
 const MIN_SCALE_LENGTH = 0;
@@ -32,7 +41,10 @@ const schema = {
       return val.trim();
     },
     assertions: [
-      isHashtagLength(1, 20)
+      isHashtagLength(1, 20),
+      isHashtagBegin(),
+      maxItemHashtags(5),
+      uniqueHashtags()
     ]
   },
   'description': {

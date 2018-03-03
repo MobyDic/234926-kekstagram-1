@@ -61,5 +61,34 @@ module.exports = {
       message: `should be in range ${from}..${to}`
     };
   },
+  isHashtagBegin() {
+    return {
+      assert(arr) {
+        return arr.split(` `).every((item) => {
+          return (item.substr(0, 1) === `#`);
+        });
+      },
+      message: `should begin with #`
+    };
+  },
+  maxItemHashtags(to) {
+    return {
+      assert(arr) {
+        return arr.split(` `).length <= to;
+      },
+      message: `should be no more ${to}`
+    };
+  },
+
+  uniqueHashtags() {
+    return {
+      assert(arr) {
+        const options = arr.split(` `);
+        const set = new Set(options);
+        return set.size === options.length;
+      },
+      message: `should be unique`
+    };
+  },
 
 };

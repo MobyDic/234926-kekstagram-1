@@ -79,10 +79,20 @@ describe(`validate fields`, () => {
   describe(`'hashtags' field validation`, () => {
     const fieldName = `hashtags`;
 
-
     it(`should be in the range from 0 to 140`, () => {
       assertField(fieldName, `#supermegakeksthebestcat #mega`, `should be in range 1..20`);
     });
 
+    it(`should begin with #`, () => {
+      assertField(fieldName, `super #mega fantastic`, `should begin with #`);
+    });
+
+    it(`should be no more than 5 item`, () => {
+      assertField(fieldName, `#super #mega #fantastic #тачка #огонь #car`, `should be no more 5`);
+    });
+
+    it(`should be unique item`, () => {
+      assertField(fieldName, `#super #mega #super #car`, `should be unique`);
+    });
   });
 });
