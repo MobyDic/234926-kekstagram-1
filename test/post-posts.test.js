@@ -1,12 +1,21 @@
 const request = require(`supertest`);
-const {app} = require(`../src/server/server`);
+const mockPostsRouter = require(`./mock-posts-router`);
+const app = require(`express`)();
+
+app.use(`/api/posts`, mockPostsRouter);
 
 const mock = {
   description: `Самая красивая тачка на этой планете`,
   effect: `chrome`,
   hashtags: `#тачка #огонь #car #bmwX5`,
-  scale: 100
+  scale: `100`,
+  filename: {
+    mimetype: `image/png`,
+    path: `/api/posts/111111/image`
+  },
+  date: `111111`
 };
+
 
 describe(`POST /api/posts`, function () {
   it(`should consume JSON`, () => {
@@ -16,10 +25,12 @@ describe(`POST /api/posts`, function () {
           description: `Самая красивая тачка на этой планете`,
           effect: `chrome`,
           hashtags: `#тачка #огонь #car #bmwX5`,
-          scale: 100,
+          scale: `100`,
           filename: {
-            mimetype: `image/png`
-          }
+            mimetype: `image/png`,
+            path: `/api/posts/111111/image`
+          },
+          date: `111111`
         }).
         expect(200, mock);
   });
@@ -31,6 +42,7 @@ describe(`POST /api/posts`, function () {
         .field(`effect`, mock.effect)
         .field(`hashtags`, mock.hashtags)
         .field(`scale`, mock.scale)
+        .field(`date`, mock.date)
         .attach(`filename`, `test/keks.png`)
         .expect(200, mock);
   });

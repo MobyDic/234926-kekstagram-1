@@ -13,6 +13,8 @@ module.exports = {
     for (let i = 0; i < count; i++) {
       data.push(generateEntity());
     }
+    console.log(data);
+
     return writeFile(`${process.cwd()}/${filePath}`, JSON.stringify(data), fileWriteOptions);
   }
 };

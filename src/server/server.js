@@ -1,5 +1,7 @@
 const express = require(`express`);
-const postsRouter = require(`./posts/route`);
+const postsStore = require(`./posts/store`);
+const imageStore = require(`./images/store`);
+const postsRouter = require(`./posts/route`)(postsStore, imageStore);
 
 const app = express();
 
