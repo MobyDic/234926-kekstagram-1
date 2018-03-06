@@ -1,5 +1,9 @@
 const request = require(`supertest`);
-const {app} = require(`../src/server/server`);
+// const {app} = require(`../src/server/server`);
+const mockPostsRouter = require(`./mock-posts-router`);
+const app = require(`express`)();
+
+app.use(`/api/posts`, mockPostsRouter);
 
 const mock = {
   description: `Самая красивая тачка на этой планете`,
@@ -7,6 +11,7 @@ const mock = {
   hashtags: `#тачка #огонь #car #bmwX5`,
   scale: 100
 };
+
 
 describe(`POST /api/posts`, function () {
   it(`should consume JSON`, () => {
