@@ -42,7 +42,7 @@ class MockPostStore {
     return new Cursor(posts);
   }
 
-  async save() {
+  async savePost() {
   }
 
 }

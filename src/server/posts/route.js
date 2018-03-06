@@ -81,7 +81,7 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
 postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   const data = req.body;
   const image = req.file;
-
+  console.log(data);
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 

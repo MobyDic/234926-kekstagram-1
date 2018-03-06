@@ -9,7 +9,10 @@ const mock = {
   description: `Самая красивая тачка на этой планете`,
   effect: `chrome`,
   hashtags: `#тачка #огонь #car #bmwX5`,
-  scale: 100
+  scale: 100,
+  filename: {
+    mimetype: `image/png`
+  }
 };
 
 
@@ -24,7 +27,7 @@ describe(`POST /api/posts`, function () {
           scale: 100,
           filename: {
             mimetype: `image/png`
-          }
+          },
         }).
         expect(200, mock);
   });
