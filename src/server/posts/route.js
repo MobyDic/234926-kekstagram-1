@@ -5,7 +5,6 @@ const ValidationError = require(`../error/validation-error`);
 const async = require(`../util/async`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
-// const {generateEntity} = require(`../../generator/generate-entity`);
 const createStreamFromBuffer = require(`../util/buffer-to-stream`);
 const dataRenderer = require(`../util/data-renderer`);
 const NotFoundError = require(`../error/not-found-error`);
@@ -14,12 +13,6 @@ const postsRouter = new Router();
 
 const upload = multer({storage: multer.memoryStorage()});
 
-
-// const posts = [...new Array(10)]
-//     .reduce((arr) => {
-//       arr.push(generateEntity());
-//       return arr;
-//     }, []);
 
 const toPage = async (data, skip, limit) => {
   const skipData = (typeof `number` && skip >= 0) ? parseInt(skip, 10) : 0;
@@ -81,7 +74,7 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
 postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   const data = req.body;
   const image = req.file;
-  console.log(data);
+
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 
