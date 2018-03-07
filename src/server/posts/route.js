@@ -26,6 +26,12 @@ const toPage = async (data, skip, limit) => {
   };
 };
 
+postsRouter.use((req, res, next) => {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
+  next();
+});
+
 postsRouter.use(bodyParser.json());
 
 postsRouter.get(``, async(async (req, res) => {
