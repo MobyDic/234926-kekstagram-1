@@ -8,6 +8,8 @@ const multer = require(`multer`);
 const createStreamFromBuffer = require(`../util/buffer-to-stream`);
 const dataRenderer = require(`../util/data-renderer`);
 const NotFoundError = require(`../error/not-found-error`);
+const logger = require(`../../logger`);
+
 
 const postsRouter = new Router();
 
@@ -22,7 +24,7 @@ const toPage = async (data, skip, limit) => {
     data: await (data.skip(skipData).limit(limitData).toArray()),
     skip: skipData,
     limit: limitData,
-    total: await (data.length)
+    total: await data.count()
   };
 };
 
@@ -84,12 +86,12 @@ postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 
+  logger.info(`put data date=${data.date}`);
   const errors = validateSchema(data, postsSchema);
 
   if (errors.length > 0) {
     throw new ValidationError(errors);
   }
-  // delete data.filename;
 
   if (image) {
     const imageInfo = {
@@ -99,6 +101,7 @@ postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
     await postsRouter.imageStore.save(imageInfo.path, createStreamFromBuffer(image.buffer));
     data.filename = imageInfo;
   }
+
   await postsRouter.postsStore.savePost(data);
   dataRenderer.renderDataSuccess(req, res, data);
 
