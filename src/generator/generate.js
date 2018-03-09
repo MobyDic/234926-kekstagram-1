@@ -14,7 +14,7 @@ module.exports = {
     for (let i = 0; i < count; i++) {
       data.push(generateEntity());
     }
-    logger.info(`generated data:`, data);
+    logger.debug(`generated data:`, data);
 
     return writeFile(`${process.cwd()}/${filePath}`, JSON.stringify(data), fileWriteOptions);
   }

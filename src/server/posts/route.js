@@ -41,8 +41,9 @@ postsRouter.get(``, async(async (req, res) => {
     limit = 50,
     skip = 0,
   } = req.query;
-
-  res.send(await toPage(await postsRouter.postsStore.getAllPosts(), skip, limit));
+  const post = await toPage(await postsRouter.postsStore.getAllPosts(), skip, limit)
+  logger.debug(`get `, post);
+  res.send(post);
 }));
 
 postsRouter.get(`/:date`, async(async (req, res) => {
@@ -51,6 +52,7 @@ postsRouter.get(`/:date`, async(async (req, res) => {
   if (!post) {
     throw new NotFoundError(`Post not found`);
   } else {
+    logger.debug(`get /:date `, post);
     res.send(post);
   }
 }));
@@ -66,7 +68,7 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
   if (!image) {
     throw new NotFoundError(`Post didn't upload image`);
   }
-
+  logger.debug(`get image} `, image);
   const {info, stream} = await postsRouter.imageStore.get(image.path);
 
   if (!info) {
@@ -86,7 +88,7 @@ postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 
-  logger.info(`put data date=${data.date}`);
+  logger.debug(`put data `, data);
   const errors = validateSchema(data, postsSchema);
 
   if (errors.length > 0) {
