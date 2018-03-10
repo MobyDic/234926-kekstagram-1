@@ -41,7 +41,7 @@ postsRouter.get(``, async(async (req, res) => {
     limit = 50,
     skip = 0,
   } = req.query;
-  const post = await toPage(await postsRouter.postsStore.getAllPosts(), skip, limit)
+  const post = await toPage(await postsRouter.postsStore.getAllPosts(), skip, limit);
   logger.debug(`get `, post);
   res.send(post);
 }));
