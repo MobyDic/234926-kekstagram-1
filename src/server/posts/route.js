@@ -9,6 +9,7 @@ const createStreamFromBuffer = require(`../util/buffer-to-stream`);
 const dataRenderer = require(`../util/data-renderer`);
 const NotFoundError = require(`../error/not-found-error`);
 const logger = require(`../../logger`);
+const ServerError = require(`../error/server-error`);
 
 
 const postsRouter = new Router();
@@ -74,7 +75,6 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
   if (!info) {
     throw new NotFoundError(`File not found`);
   }
-
   res.set(`content-type`, image.mimetype);
   res.set(`content-length`, info.length);
   res.status(200);
@@ -84,7 +84,7 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
 postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   const data = req.body;
   const image = req.file;
-
+  console.log(image);
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 
@@ -113,9 +113,19 @@ postsRouter.use((exception, req, res, next) => {
   let data = exception;
   if (exception instanceof ValidationError) {
     data = exception.errors;
+    return res.status(400).send(data);
+
   }
-  res.status(400).send(data);
-  next();
+  if (!(exception instanceof NotFoundError) && !(exception instanceof ValidationError)) {
+    return res.status(500);
+  }
+
+  return next();
+
+});
+
+postsRouter.all(`*`, (req, res) => {
+  res.status(501).json(ServerError.NOT_IMPLEMENTED).end();
 });
 
 module.exports = (postsStore, imageStore) => {

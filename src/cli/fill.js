@@ -3,6 +3,9 @@ const readline = require(`readline`);
 const {generateEntity} = require(`../generator/generate-entity`);
 const logger = require(`../logger`);
 const postsStore = require(`../server/posts/store`);
+const fs = require(`fs`);
+const imageStore = require(`../server/images/store`);
+const createStreamFromBuffer = require(`../server/util/buffer-to-stream`);
 
 
 module.exports = {
@@ -27,10 +30,26 @@ module.exports = {
     });
 
     askForElements()
-        .then((result) => {
+        .then(async (result) => {
           for (let i = 0; i < result; i++) {
             let data = generateEntity();
+            data.date = +new Date();
+
+            const testImagePath = __dirname + `/../../test/keks.png`;
+
+            const image = fs.readFileSync(testImagePath, `utf8`);
+
+            const imageInfo = {
+              path: `/api/posts/${data.date}/image`,
+              mimetype: `image/jpeg`,
+            };
+            const buffer = new Buffer(image);
+
+            await imageStore.save(imageInfo.path, createStreamFromBuffer(buffer));
+            data.filename = imageInfo;
+
             postsStore.savePost(data);
+
             logger.info(`generated and inserted data:`, data);
           }
 
