@@ -2,6 +2,7 @@ require(`colors`);
 const readline = require(`readline`);
 const fs = require(`fs`);
 const generate = require(`../generator/generate`);
+const logger = require(`../logger`);
 
 
 const packageInfo = require(`../../package.json`);
@@ -52,7 +53,7 @@ module.exports = {
         })
         .catch((err) => {
           if (err) {
-            console.log(err);
+            logger.error(err);
           }
           return (err);
         })

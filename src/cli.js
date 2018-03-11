@@ -8,6 +8,7 @@ const licenseModule = require(`./cli/license`);
 const helpModule = require(`./cli/help`);
 const unknownModule = require(`./cli/unknown`);
 const server = require(`./server/server`);
+const fillModule = require(`./cli/fill`);
 
 
 const commands = [
@@ -16,6 +17,7 @@ const commands = [
   descriptionModule,
   authorModule,
   licenseModule,
+  fillModule,
   server
 ];
 
