@@ -25,6 +25,7 @@ module.exports = {
         } else {
           console.log(`Ошибка в числе`);
           rl.close();
+          process.exit(1);
         }
       });
     });
@@ -58,9 +59,11 @@ module.exports = {
         .catch((err) => {
           if (err) {
             logger.error(err);
+            process.exit(1);
           }
           return (err);
         })
-        .then(() => rl.close());
+        .then(() => rl.close())
+        .then(() => process.exit(0));
   }
 };

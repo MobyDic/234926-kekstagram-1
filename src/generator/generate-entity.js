@@ -27,7 +27,6 @@ function getRandomItem(min, max) {
 
 function generateEntity() {
 
-
   return {
     'url': `https://picsum.photos/600/${getRandomItem(100, 1000)}`,
     'scale': getRandomItem(0, 100),

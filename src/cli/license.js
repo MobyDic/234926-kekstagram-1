@@ -7,5 +7,6 @@ module.exports = {
   description: `печатает лицензию приложения`,
   execute() {
     console.log(`${packageInfo.license.green}`);
+    process.exit(0);
   }
 };

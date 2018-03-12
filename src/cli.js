@@ -21,6 +21,7 @@ const commands = [
   server
 ];
 
+
 if (arg[0]) {
 
   const currentCommand = commands.find((command) => arg[0] === command.name);
@@ -31,15 +32,15 @@ if (arg[0]) {
         break;
       case `--help`:
         currentCommand.execute(commands);
+        process.exit(0);
         break;
       default: currentCommand.execute();
     }
 
   } else {
     unknownModule.execute();
-    process.exit(1);
   }
 
 } else {
-  greetingModule.execute();
+  greetingModule.execute(commands);
 }

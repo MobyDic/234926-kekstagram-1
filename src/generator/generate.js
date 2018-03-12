@@ -15,7 +15,6 @@ module.exports = {
       data.push(generateEntity());
     }
     logger.debug(`generated data:`, data);
-
     return writeFile(`${process.cwd()}/${filePath}`, JSON.stringify(data), fileWriteOptions);
   }
 };

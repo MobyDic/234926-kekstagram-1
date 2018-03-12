@@ -8,5 +8,6 @@ module.exports = {
   execute() {
     const [major, minor, patch] = packageInfo.version.split(`.`);
     console.log(`v${major.red}.${minor.green}.${patch.blue}`);
+    process.exit(0);
   }
 };

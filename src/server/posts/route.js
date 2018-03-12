@@ -11,6 +11,13 @@ const NotFoundError = require(`../error/not-found-error`);
 const logger = require(`../../logger`);
 const ServerError = require(`../error/server-error`);
 
+const CodeStatus = {
+  OK: 200,
+  VALIDATION_ERROR: 400,
+  NOT_FOUND_ERROR: 404,
+  INTERNAL_SERVER_ERROR: 500,
+  NOT_IMPLEMENTED: 501
+};
 
 const postsRouter = new Router();
 
@@ -77,14 +84,14 @@ postsRouter.get(`/:date/image`, async(async (req, res) => {
   }
   res.set(`content-type`, image.mimetype);
   res.set(`content-length`, info.length);
-  res.status(200);
+  res.status(CodeStatus.OK);
   stream.pipe(res);
 }));
 
 postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
   const data = req.body;
   const image = req.file;
-  console.log(image);
+
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
 
@@ -111,13 +118,18 @@ postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
 
 postsRouter.use((exception, req, res, next) => {
   let data = exception;
+
   if (exception instanceof ValidationError) {
     data = exception.errors;
-    return res.status(400).send(data);
-
+    return res.status(CodeStatus.VALIDATION_ERROR).send(data);
   }
+
+  if (exception instanceof NotFoundError) {
+    return res.status(CodeStatus.NOT_FOUND_ERROR).send(data);
+  }
+
   if (!(exception instanceof NotFoundError) && !(exception instanceof ValidationError)) {
-    return res.status(500);
+    return res.status(CodeStatus.INTERNAL_SERVER_ERROR).json(ServerError.INTERNAL_SERVER_ERROR);
   }
 
   return next();
@@ -125,7 +137,7 @@ postsRouter.use((exception, req, res, next) => {
 });
 
 postsRouter.all(`*`, (req, res) => {
-  res.status(501).json(ServerError.NOT_IMPLEMENTED).end();
+  res.status(CodeStatus.NOT_IMPLEMENTED).json(ServerError.NOT_IMPLEMENTED).end();
 });
 
 module.exports = (postsStore, imageStore) => {
