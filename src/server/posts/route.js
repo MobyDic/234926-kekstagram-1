@@ -103,6 +103,8 @@ postsRouter.post(``, upload.single(`filename`), async(async (req, res) => {
 
   data.filename = image || data.filename;
   data.date = data.date || +new Date();
+  data.scale = parseInt(data.scale, 10);
+  data.comments = [];
 
   logger.debug(`put data `, data);
   const errors = validateSchema(data, postsSchema);
