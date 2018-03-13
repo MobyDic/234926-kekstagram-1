@@ -8,7 +8,8 @@ const mock = {
   description: `Самая красивая тачка на этой планете`,
   effect: `chrome`,
   hashtags: `#тачка #огонь #car #bmwX5`,
-  scale: `100`,
+  scale: 100,
+  comments: [],
   filename: {
     mimetype: `image/png`,
     path: `/api/posts/111111/image`
@@ -58,6 +59,7 @@ describe(`POST /api/posts`, function () {
         .expect(400, [
           {
             fieldName: `scale`,
+            fieldValue: null,
             errorMessage: `is required`
           }
         ]);
