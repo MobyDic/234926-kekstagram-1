@@ -1,6 +1,7 @@
 const {
   textRange,
   isImage,
+  isNumber,
   oneOf,
   inRange,
   isHashtagLength,
@@ -16,7 +17,7 @@ const MIN_DESCRIPT_LENGTH = 0;
 const MAX_DESCRIPT_LENGTH = 140;
 
 
-const schema = {
+const postsSchema = {
   'filename': {
     required: true,
     assertions: [
@@ -56,4 +57,19 @@ const schema = {
 
 };
 
-module.exports = schema;
+const paramsSchema = {
+  'skip': {
+    required: false,
+    assertions: [
+      isNumber()
+    ]
+  },
+  'limit': {
+    required: false,
+    assertions: [
+      isNumber()
+    ]
+  }
+}
+
+module.exports = {postsSchema, paramsSchema}

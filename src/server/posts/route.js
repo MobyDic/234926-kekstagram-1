@@ -1,6 +1,6 @@
 const {Router} = require(`express`);
 const {validateSchema} = require(`../util/validator`);
-const postsSchema = require(`./validation`);
+const {postsSchema, paramsSchema} = require(`./validation`);
 const ValidationError = require(`../error/validation-error`);
 const async = require(`../util/async`);
 const bodyParser = require(`body-parser`);
@@ -25,8 +25,9 @@ const upload = multer({storage: multer.memoryStorage()});
 
 
 const toPage = async (data, skip, limit) => {
-  const skipData = (typeof `number` && skip >= 0) ? parseInt(skip, 10) : 0;
-  const limitData = (typeof `number` && limit >= 0) ? parseInt(limit, 10) : 50;
+
+  const skipData = (Number(skip) >= 0) ? parseInt(skip, 10) : 0;
+  const limitData = (Number(limit) >= 0) ? parseInt(limit, 10) : 50;
 
   return {
     data: await (data.skip(skipData).limit(limitData).toArray()),
@@ -49,6 +50,14 @@ postsRouter.get(``, async(async (req, res) => {
     limit = 50,
     skip = 0,
   } = req.query;
+
+
+  const errors = validateSchema(req.query, paramsSchema);
+
+  if (errors.length > 0) {
+    throw new ValidationError(errors);
+  }
+
   const post = await toPage(await postsRouter.postsStore.getAllPosts(), skip, limit);
   logger.debug(`get `, post);
   res.send(post);
@@ -136,9 +145,9 @@ postsRouter.use((exception, req, res, next) => {
 
 });
 
-postsRouter.all(`*`, (req, res) => {
-  res.status(CodeStatus.NOT_IMPLEMENTED).json(ServerError.NOT_IMPLEMENTED).end();
-});
+// postsRouter.all(`*`, (req, res) => {
+//   res.status(CodeStatus.NOT_IMPLEMENTED).json(ServerError.NOT_IMPLEMENTED).end();
+// });
 
 module.exports = (postsStore, imageStore) => {
   postsRouter.postsStore = postsStore;

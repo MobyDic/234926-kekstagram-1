@@ -26,6 +26,14 @@ module.exports = {
       message: `should be in range ${from}..${to}`
     };
   },
+  isNumber() {
+    return {
+      assert(number) {
+        return !isNaN(number);
+      },
+      message: `should be a number`
+    };
+  },
   textRange(from, to) {
     return {
       assert(text) {
