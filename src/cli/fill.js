@@ -36,9 +36,9 @@ module.exports = {
             let data = generateEntity();
             data.date = +new Date();
 
-            const testImagePath = __dirname + `/../../test/keks.png`;
+            const testImagePath = __dirname + `/../../static/photos/14.jpg`;
 
-            const image = fs.readFileSync(testImagePath, `utf8`);
+            const image = fs.readFileSync(testImagePath);
 
             const imageInfo = {
               path: `/api/posts/${data.date}/image`,
@@ -49,7 +49,7 @@ module.exports = {
             await imageStore.save(imageInfo.path, createStreamFromBuffer(buffer));
             data.filename = imageInfo;
 
-            postsStore.savePost(data);
+            await postsStore.savePost(data);
 
             logger.info(`generated and inserted data:`, data);
           }

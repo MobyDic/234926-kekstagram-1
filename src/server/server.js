@@ -11,13 +11,14 @@ const app = express();
 app.use(express.static(`static`));
 app.use(`/api/posts`, postsRouter);
 app.all(`*`, (req, res) => {
-  res.status(501).json(ServerError.NOT_IMPLEMENTED).end();
+  res.status(NOT_IMPLEMENTED).json(ServerError.NOT_IMPLEMENTED).end();
 });
 
 const HOSTNAME = parseInt(process.env.SERVER_HOST, 10) || `127.0.0.1`;
 const PORT = parseInt(process.env.SERVER_PORT, 10) || `3000`;
 const MINPORT = 1024;
 const MAXPORT = 65536;
+const NOT_IMPLEMENTED = 501;
 
 module.exports = {
   name: `--server`,
