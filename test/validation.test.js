@@ -1,6 +1,6 @@
 const {validate} = require(`../src/server/util/validator`);
 
-const schema = require(`../src/server/posts/validation`);
+const {postsSchema} = require(`../src/server/posts/validation`);
 const assert = require(`assert`);
 
 const assertField = (fieldName, fieldValue, ...errorMessages) => {
@@ -9,7 +9,7 @@ const assertField = (fieldName, fieldValue, ...errorMessages) => {
     fieldName, fieldValue, errorMessage
   }));
 
-  const actual = validate({[fieldName]: fieldValue}, fieldName, schema[fieldName]);
+  const actual = validate({[fieldName]: fieldValue}, fieldName, postsSchema[fieldName]);
 
   assert.deepEqual(actual, expected);
 };

@@ -70,6 +70,6 @@ const paramsSchema = {
       isNumber()
     ]
   }
-}
+};
 
-module.exports = {postsSchema, paramsSchema}
+module.exports = {postsSchema, paramsSchema};

@@ -1,9 +1,11 @@
 const ServerError = require(`../src/server/error/server-error`);
 const request = require(`supertest`);
-const mockPostsRouter = require(`./mock-posts-router`);
 const app = require(`express`)();
 
-app.use(`/api/posts`, mockPostsRouter);
+app.all(`*`, (req, res) => {
+  res.status(501).json(ServerError.NOT_IMPLEMENTED).end();
+});
+
 
 describe(`DELETE /api/posts`, () => {
   it(`should respond  501 Not Implemented`, () => {
