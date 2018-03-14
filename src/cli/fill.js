@@ -1,34 +1,16 @@
 require(`colors`);
-const readline = require(`readline`);
 const {generateEntity} = require(`../generator/generate-entity`);
 const logger = require(`../logger`);
 const postsStore = require(`../server/posts/store`);
 const fs = require(`fs`);
 const imageStore = require(`../server/images/store`);
 const createStreamFromBuffer = require(`../server/util/buffer-to-stream`);
-
+const {askForElements, closeRl, stopError} = require(`../generator/generator-util`);
 
 module.exports = {
   name: `--fill`,
   description: `заполняет базу данных тестовыми данными`,
   execute() {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-
-    const askForElements = () => new Promise((resolve) => {
-      rl.question(`Сколько тестовых записей необходимо вставить в БД? `.green, (elements) => {
-        if (!isNaN(elements)) {
-          resolve(elements);
-        } else {
-          console.log(`Ошибка в числе`);
-          rl.close();
-          process.exit(1);
-        }
-      });
-    });
 
     askForElements()
         .then(async (result) => {
@@ -56,14 +38,8 @@ module.exports = {
 
           return result;
         })
-        .catch((err) => {
-          if (err) {
-            logger.error(err);
-            process.exit(1);
-          }
-          return (err);
-        })
-        .then(() => rl.close())
+        .catch(stopError)
+        .then(closeRl)
         .then(() => process.exit(0));
   }
 };

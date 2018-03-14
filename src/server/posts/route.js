@@ -9,13 +9,12 @@ const createStreamFromBuffer = require(`../util/buffer-to-stream`);
 const dataRenderer = require(`../util/data-renderer`);
 const NotFoundError = require(`../error/not-found-error`);
 const logger = require(`../../logger`);
-const ServerError = require(`../error/server-error`);
+const InternalServerError = require(`../error/server-error`);
 
 const CodeStatus = {
   OK: 200,
   VALIDATION_ERROR: 400,
-  NOT_FOUND_ERROR: 404,
-  INTERNAL_SERVER_ERROR: 500
+  NOT_FOUND_ERROR: 404
 };
 
 const postsRouter = new Router();
@@ -49,7 +48,6 @@ postsRouter.get(``, async(async (req, res) => {
     limit = 50,
     skip = 0,
   } = req.query;
-
 
   const errors = validateSchema(req.query, paramsSchema);
 
@@ -139,16 +137,14 @@ postsRouter.use((exception, req, res, next) => {
   }
 
   if (!(exception instanceof NotFoundError) && !(exception instanceof ValidationError)) {
-    return res.status(CodeStatus.INTERNAL_SERVER_ERROR).json(ServerError.INTERNAL_SERVER_ERROR);
+    data = new InternalServerError();
+    return res.status(data.code).json(data);
   }
 
   return next();
 
 });
 
-// postsRouter.all(`*`, (req, res) => {
-//   res.status(CodeStatus.NOT_IMPLEMENTED).json(ServerError.NOT_IMPLEMENTED).end();
-// });
 
 module.exports = (postsStore, imageStore) => {
   postsRouter.postsStore = postsStore;

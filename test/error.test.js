@@ -1,9 +1,10 @@
-const ServerError = require(`../src/server/error/server-error`);
+const ServerError = require(`../src/server/error/not-implemented`);
 const request = require(`supertest`);
 const app = require(`express`)();
+const error = new ServerError();
 
 app.all(`*`, (req, res) => {
-  res.status(501).json(ServerError.NOT_IMPLEMENTED).end();
+  res.status(error.code).json(error).end();
 });
 
 
@@ -12,6 +13,6 @@ describe(`DELETE /api/posts`, () => {
     return request(app)
         .delete(`/api/posts/`)
         .expect(`Content-Type`, /json/)
-        .expect(501, ServerError.NOT_IMPLEMENTED);
+        .expect(501, error);
   });
 });
