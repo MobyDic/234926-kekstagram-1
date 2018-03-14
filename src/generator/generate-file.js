@@ -41,8 +41,8 @@ function generateFile() {
       .then(askForElements)
       .then(askForPath)
       .then(askForExistingFile)
-      .then((result) => {
-        generate.execute(result);
+      .then(async (result) => {
+        await generate.execute(result);
         console.log(`Файл создан!`);
         return result;
       })

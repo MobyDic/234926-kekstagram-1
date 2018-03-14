@@ -15,8 +15,7 @@ const CodeStatus = {
   OK: 200,
   VALIDATION_ERROR: 400,
   NOT_FOUND_ERROR: 404,
-  INTERNAL_SERVER_ERROR: 500,
-  NOT_IMPLEMENTED: 501
+  INTERNAL_SERVER_ERROR: 500
 };
 
 const postsRouter = new Router();
